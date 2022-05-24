@@ -74,17 +74,10 @@ public class ChatBox implements ChatApplication {
 
         if (loginDetails) {
             switch (selectOperation) {
-            case "1":
-                signIn();
-                break;
-            case "2":
-                signUp();
-                break;
-            case "3":
-                forgotPassword();
-                break;
-            default:
-                System.out.println("----I--N--V--A--L--I--D----");
+            case "1" -> signIn();
+            case "2" -> signUp();
+            case "3" -> forgotPassword();
+            default -> System.out.println("----I--N--V--A--L--I--D----");
             }
         } else {
             System.out.println("Invalid Selection");
@@ -93,28 +86,21 @@ public class ChatBox implements ChatApplication {
     }
 
     public void contactOperation() {
-        System.out.println("Select Anyone Operations : 1)Show Contacts \t 2)Add new Contact \t 3)ChatBox\t");
+        System.out.println("Select Anyone Operations : 1)Show Contacts \t 2)Add new Contact \t 3)ChatBox\t 4)Logout");
         System.out.print("Select Option : \t");
         String selectOperation = SCANNER.nextLine();
 
-        String contactSelection = "[123]";
+        String contactSelection = "[1-4]";
 
         boolean contactDetails = selectOperation.matches(contactSelection);
 
         if (contactDetails) {
             switch (selectOperation) {
-            case "1":
-                displayContact();
-                break;
-            case "2":
-                addNewContact();
-                break;
-            case "3":
-                messageBox();
-                forgotPassword();
-                break;
-            default:
-                System.out.println("----I--N--V--A--L--I--D----");
+            case "1" -> displayContact();
+            case "2" -> addNewContact();
+            case "3" -> messageBox();
+            case "4" -> loginOperation();
+            default -> System.out.println("----I--N--V--A--L--I--D----");
             }
         } else {
             System.out.println("Invalid Selection");
@@ -126,7 +112,7 @@ public class ChatBox implements ChatApplication {
         System.out.print("Enter Your UserName : \t");
         String username = SCANNER.nextLine();
 
-        String userNamePattern = "^[a-zA-Z0-9\\s]{8,20}$";
+        String userNamePattern = "^[a-zA-Z\\d\\s]{8,20}$";
 
         boolean loginDetails = username.matches(userNamePattern);
 
@@ -158,7 +144,7 @@ public class ChatBox implements ChatApplication {
         System.out.print("Enter Your Email : \t");
         String email = SCANNER.nextLine();
 
-        String emailPattern = "^[a-z0-9._]+@[a-z.]+$";
+        String emailPattern = "^[a-z\\d._]+@[a-z.]+$";
 
         boolean contactDetails = email.matches(emailPattern);
 
