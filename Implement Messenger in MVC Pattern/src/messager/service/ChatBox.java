@@ -1,26 +1,34 @@
 package messager.service;
 
-import messager.controller.LoginCredentials;
-import messager.model.UserInformation;
+import messager.controller.Messenger;
+import messager.model.ContactInformation;
+import messager.model.LoginInformation;
+import messager.model.MessageInformation;
+import messager.view.ContactPage;
 import messager.view.LoginPage;
+import messager.view.MessagePage;
 
 import java.util.Scanner;
 
 public class ChatBox implements ChatApplication {
     private static final Scanner SCANNER = new Scanner(System.in);
 
-    private static final UserInformation MODEL = new UserInformation();
+    private static final LoginInformation LOGIN_INFORMATION = new LoginInformation();
 
-    private static final LoginPage VIEW = new LoginPage();
+    private static final LoginPage LOGIN_PAGE = new LoginPage();
+    private static final ContactInformation CONTACT_INFORMATION = new ContactInformation();
+    private static final ContactPage CONTACT_PAGE = new ContactPage();
+    private static final MessageInformation MESSAGE_INFORMATION = new MessageInformation();
+    private static final MessagePage MESSAGE_PAGE = new MessagePage();
 
-    private static final LoginCredentials LOGIN_CREDENTIALS = new LoginCredentials(MODEL, VIEW);
+    private static final Messenger MESSENGER = new Messenger(LOGIN_INFORMATION,LOGIN_PAGE,CONTACT_INFORMATION,CONTACT_PAGE,MESSAGE_PAGE,MESSAGE_INFORMATION);
 
     public static void main(String[] args) {
         try {
             ChatBox chatBox = new ChatBox();
             chatBox.loginOperation();
         } catch (Exception exception) {
-            System.out.println();
+            System.out.println("Exception :"+exception);
         }
     }
 
@@ -31,40 +39,44 @@ public class ChatBox implements ChatApplication {
 
     public void signUp() {
         userDetails();
-        LOGIN_CREDENTIALS.accountSignUp();
+        MESSENGER.accountSignUp();
     }
 
     public void signIn() {
         userDetails();
-        LOGIN_CREDENTIALS.accountSignIn();
+        MESSENGER.accountSignIn();
     }
 
     public void forgotPassword() {
         userDetails();
-        LOGIN_CREDENTIALS.accountForgotPassword();
+        MESSENGER.accountForgotPassword();
     }
 
     public void displayContact() {
         assignEmail();
-        LOGIN_CREDENTIALS.userContact();
+        MESSENGER.userContact();
     }
 
     public void addNewContact() {
         assignEmail();
         assignMobileNumber();
         assignUserName();
-        LOGIN_CREDENTIALS.addUserContact();
+        MESSENGER.addUserContact();
     }
 
     public void messageBox() {
         assignTextMessage();
-        assignUserName();
-        assignEmail();
-        LOGIN_CREDENTIALS.messenger();
+        assignProfileId();
+        MESSENGER.messenger();
+    }
+
+    public void oldUserMessage() {
+        assignTextMessage();
+        MESSENGER.messageExistingUser();
     }
 
     public void loginOperation() {
-        System.out.println("Select Anyone Operations : 1)SignIn \t 2)SignUp \t 3)ForgotPassword\t");
+        System.out.println("Select Anyone Operation : 1)SignIn \t 2)SignUp \t 3)ForgotPassword\t");
         System.out.print("Select Option : \t");
         String selectOperation = SCANNER.nextLine();
 
@@ -117,9 +129,9 @@ public class ChatBox implements ChatApplication {
         boolean loginDetails = username.matches(userNamePattern);
 
         if (loginDetails) {
-            MODEL.setUserName(username);
+            LOGIN_INFORMATION.setUserName(username);
         } else {
-            System.out.println("Username Invalid Format");
+            System.out.println("-----UserName must contain 8 characters:--------");
             assignUserName();
         }
     }
@@ -133,7 +145,7 @@ public class ChatBox implements ChatApplication {
         boolean loginDetails = password.matches(passwordPattern);
 
         if (loginDetails) {
-            MODEL.setPassword(password);
+            LOGIN_INFORMATION.setPassword(password);
         } else {
             System.out.println("Password In Invalid Format");
             assignPassword();
@@ -149,7 +161,7 @@ public class ChatBox implements ChatApplication {
         boolean contactDetails = email.matches(emailPattern);
 
         if (contactDetails) {
-            MODEL.setEmail(email);
+            CONTACT_INFORMATION.setEmail(email);
         } else {
             System.out.println("Email ID is Invalid Format So kindly Retry");
             assignEmail();
@@ -165,7 +177,7 @@ public class ChatBox implements ChatApplication {
         boolean contactDetails = mobileNumber.matches(mobileNumberPattern);
 
         if (contactDetails) {
-            MODEL.setMobileNumber(mobileNumber);
+            CONTACT_INFORMATION.setMobileNumber(mobileNumber);
         } else {
             System.out.println("-----MobileNumber Must contain 10 characters:--------");
             assignMobileNumber();
@@ -174,6 +186,22 @@ public class ChatBox implements ChatApplication {
 
     public void assignTextMessage() {
         System.out.print("Enter Your textMessage : \t");
-        MODEL.setTextMessage(SCANNER.nextLine());
+        MESSAGE_INFORMATION.setTextMessage(SCANNER.nextLine());
+    }
+
+    public void assignProfileId() {
+        System.out.print("Enter userProfileId : \t");
+        String contactProfile = SCANNER.nextLine();
+
+        String contactProfilePattern = "(?:[0-9]|[0-9]{2}|[0-9]{3})";
+
+        boolean contactDetails = contactProfile.matches(contactProfilePattern);
+
+        if (contactDetails) {
+            MESSAGE_INFORMATION.setUserProfileId(contactProfile);
+        } else {
+            System.out.println("-----ProfileId only contain 1-3 characters:--------");
+            assignProfileId();
+        }
     }
 }
