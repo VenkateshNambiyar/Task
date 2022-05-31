@@ -1,6 +1,0 @@
-#New user Added Successfully
-#Thu May 26 12:21:55 IST 2022
-aswini@gmail.com={9812121212\=AswiniNattar}
-dhanush@k.raja={{9876543210\=Aiswarya}\={9876543211\=Selva Raghavan}}
-sndr@ak.in={9876543210\=Riyas Ahmed}
-str9@nayan.in={9876543210\=vignesh Shivan}
